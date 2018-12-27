@@ -147,10 +147,22 @@ bindsym Mod1+Shift+0 move container to workspace $ws10
 
 # reload the configuration file
 bindsym Mod1+Shift+c reload
+
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym Mod1+Shift+r restart
+
 # exit i3 (logs you out of your X session)
 bindsym Mod1+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+
+# bind brightness keys
+bindsym XF86MonBrightnessUp exec light -A 5 && notify-send "Screen Brightness: $(printf %.0f%% $(light -G))"
+  # increase screen brightness
+bindsym XF86MonBrightnessDown exec light -U 5 && notify-send "Screen Brightness: $(printf %.0f%% $(light -G))" # decrease screen brightness
+
+# bind audio keys
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -179,12 +191,26 @@ mode "resize" {
 
 bindsym Mod1+r mode "resize"
 
+# execute polybar
 exec_always --no-startup-id ~/.config/polybar/build.sh
+
+# assign items to polybar
+assign [class="Firefox"] $ws2
+assign [class="Chromium"] $ws2
+#assign [class="Gedit"] $ws3
+#assign [class="Code"] $ws3
+#assign [class="Nautilus"] $ws4
+#assign [class="qutebrowser"] $ws2
+#assign [class="vlc"] $ws6
+#assign [class="rviz"] $workspace3
+#assign [class="rtabmapviz"] $workspace3
+#assign [class="QGroundControl"] $workspace3
+#issign [class="obs"] $workspace9
 
 for_window [class="^.*"] border pixel 0
 
-gaps inner 30
-gaps outer 20
+gaps inner 10
+gaps outer 10
 
 #######################################################################
 # automatically start i3-config-wizard to offer the user to create a
